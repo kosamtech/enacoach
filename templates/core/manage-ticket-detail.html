@@ -1,0 +1,48 @@
+{% extends '../base.html' %} {% load static %} {% block content %}
+<div class="container py-6 min-view-height">
+    <div class="row mb-4">
+        <div class="col-mid">
+            <div class="text-center">
+                <h3 class="print-ticket">Reschedule</h3>
+                <table class="table mb-4">
+                    <thead>
+                        <tr>
+                            <th>Ticket Number</th>
+                            <th>Route</th>
+                            <th>Passenger</th>
+                            <th>Seat</th>
+                            <th>Current Date Of Travel</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reschedule">
+                        <tr>
+                            <td>{{ booking.reference }}</td>
+                            <td>{{ booking.trip.route.origin }} - {{ booking.trip.route.destination }}</td>
+                            <td>{{ booking.passenger.first_name }} {{booking.passenger.last_name}}</td>
+                            <td>{{ booking.seat.seat_number }}</td>
+                            <td>{{ booking.date_of_travel }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form action="" method="post" class="flex gap-10" id="manageticket">
+                    {% csrf_token %}
+                    <label for="date-of-travel">Enter New Date Of Travel</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="date-of-travel"
+                        name="date_of_travel"
+                        required
+                    />
+                    <input type="text" hidden name="booking_id" value="{{ booking.id }}">
+                    <button type="submit" class="btn-danger">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% if message %}
+        <div class="response-msg alert alert-success text-center">{{ message }}</div>
+    {% endif %}
+</div>
+
+{% endblock %}

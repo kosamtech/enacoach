@@ -1,0 +1,225 @@
+{% extends '../base.html' %} {% load static %} {% block content %}
+<div class="container py-6 min-view-height">
+    <div class="flex-auth">
+        <div class="p-4">
+            <h1 class="mb-3">Join ENA Coach Bus</h1>
+            <div class="btn-group">
+                <button
+                    class="btn-auth text-orange"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signUpModal"
+                >
+                    Sign Up
+                </button>
+                <button
+                    class="btn-auth text-orange"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signInModal"
+                >
+                    Sign In
+                </button>
+                <button
+                    class="btn-auth text-orange"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#guestModal"
+                >
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <div
+        class="modal fade"
+        id="signUpModal"
+        tabindex="{-1}"
+        role="dialog"
+        aria-labelledby="modal-center"
+        aria-hidden="true"
+        style="display: none"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="text-right">
+                    <button
+                        type="button"
+                        class="btn"
+                        data-bs-dismiss="modal"
+                        aria-label="close"
+                    >
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body text-center px-5 pb-2">SIGN UP</div>
+
+                <div class="modal-body px-5 pb-4">
+                    <form action="">
+                        <div class="form-group mb-2">
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="fullname"
+                                placeholder="Name"
+                            />
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="">Gender</label>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="gender"
+                                    id="maleGender"
+                                    value="male"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="maleGender"
+                                >
+                                    Male
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="gender"
+                                    id="femaleGender"
+                                    value="female"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="femaleGender"
+                                >
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="dob">Date Of Birth</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="dob"
+                                id="dob"
+                            />
+                        </div>
+                        <div class="form-group mb-2">
+                            <input
+                                type="email"
+                                class="form-control"
+                                name="email"
+                                placeholder="someone@example.com"
+                            />
+                        </div>
+                        <div class="form-group form-row mb-2">
+                            <select name="countryCode" id="countryCode">
+                                <option value="+254">+254</option>
+                                <option value="+255">+255</option>
+                                <option value="+253">+253</option>
+                                <option value="+252">+252</option>
+                            </select>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="phonenumber"
+                                placeholder="7xxxxxxxx"
+                                maxlength="9"
+                            />
+                        </div>
+                        <div class="form-group mb-2">
+                            <input
+                                type="password"
+                                class="form-control"
+                                name="password1"
+                                placeholder="Password"
+                                required
+                            />
+                        </div>
+                        <div class="form-group mb-2">
+                            <input
+                                type="password"
+                                class="form-control"
+                                name="password2"
+                                placeholder="Confirm Password"
+                                required
+                            />
+                        </div>
+                        <div class="text-center">
+                            <button class="btn-login" type="submit">
+                                Sign Up
+                            </button>
+                            <div class="friendly-info">
+                                <span>Already Have Account?</span>
+                                <span>Sign In</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <div
+        class="modal fade"
+        id="signInModal"
+        tabindex="{-1}"
+        role="dialog"
+        aria-labelledby="modal-center"
+        aria-hidden="true"
+        style="display: none"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="text-right">
+                    <button
+                        type="button"
+                        class="btn"
+                        data-bs-dismiss="modal"
+                        aria-label="close"
+                    >
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body text-center px-5 pb-2">SIGN IN</div>
+
+                <div class="modal-body px-5 pb-4">
+                    <form action="">
+                        <div class="form-group form-row mb-2">
+                            <select name="countryCode" id="countryCode">
+                                <option value="+254">+254</option>
+                                <option value="+255">+255</option>
+                                <option value="+253">+253</option>
+                                <option value="+252">+252</option>
+                            </select>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="phonenumber"
+                                maxlength="9"
+                                placeholder="7xxxxxxxx"
+                            />
+                        </div>
+                        <div class="text-center">
+                            <button class="btn-login" type="submit">
+                                Sign In
+                            </button>
+                            <div class="friendly-info">
+                                <span>Forgot Password</span>
+                                <span>Sign Up</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

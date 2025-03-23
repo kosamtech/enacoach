@@ -1,0 +1,138 @@
+{% extends '../base.html' %} {% load static %} {% block content %}
+<div class="container">
+    <form action="{% url 'index' %}" method="post" class="search-box">
+        {% csrf_token %}
+        <select class="town-select" name="origin" id="origin">
+            <option value="">From</option>
+            {% for town in towns %}
+            <option value="{{town.name}}">{{town.name}}</option>
+            {% endfor%}
+        </select>
+        <select class="town-select" name="destination" id="destination">
+            <option value="">To</option>
+            {% for town in towns %}
+            <option value="{{town.name}}">{{town.name}}</option>
+            {% endfor %}
+        </select>
+
+        <select
+            class="passenger-select"
+            id="passengers-select"
+            name="numpassengers"
+        >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+
+        <input type="date" name="travel_date" id="travel_date" />
+        <button type="submit" class="btn-custom">Search</button>
+    </form>
+    {% if errors %}
+    <div class="text-center alert alert-danger" role="alert">{{ errors }}</div>
+    {% endif %}
+</div>
+<div class="corousal-container">
+    <img
+        src="{% static 'images/banner1.jpg' %}"
+        alt="banner-1"
+        class="corousal-image"
+    />
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 py-2"><span class="why-us">WHY US?</span></div>
+        <div class="col-md-7 py-2">
+            <span class="text-orange font-1">Lipa Na Mpesa</span>
+            <p class="mt-2 font-sm">
+                We have introduced several options to book from the comfort of
+                your home or from whichever location you are, e.g Lipa Na Mpesa,
+                online booking.
+            </p>
+        </div>
+        <div class="col-md-3 py-2 book-ticket">
+            <button class="book-ticket-btn">Book Ticket</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="text-orange font-1">Comfort</span>
+            <p class="font-sm">
+                We have the most comfortable buses on the kenyan roads with lots
+                of legroom to ensure that you reach your destination fully
+                relaxed.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <span class="text-orange font-1">Full Amenities</span>
+            <p class="font-sm">
+                Our buses are fitted with high speed internet connection via
+                wifi and power outlets to charge your devices on the go
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box">
+                <span class="font-bold">Fleet</span>
+                <img
+                    src="{% static 'images/banner2.jpg' %}"
+                    class="box-img"
+                    alt="banner2"
+                />
+                <span>Our fleet includes buses and 11 seater vans.</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box">
+                <span class="font-bold">Parcel</span>
+                <img
+                    src="{% static 'images/eph-logo.png' %}"
+                    class="box-img"
+                    alt="eph-logo"
+                />
+                <span
+                    >We deliver parcels to all major towns in the country.</span
+                >
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box">
+                <span class="font-bold">Routes</span>
+                <img
+                    src="{% static 'images/route.png' %}"
+                    class="box-img"
+                    alt="route"
+                />
+                <span>We operate in all counties in Kenya.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row py-6">
+        <div class="col-md-3">
+            <img
+                src="{% static 'images/iAbiri.png' %}"
+                alt="iabiri"
+                class="iabiri"
+            />
+        </div>
+        <div class="col-md-3">
+            <img
+                src="{% static 'images/appstore.png' %}"
+                alt="googleplay"
+                class="iabiri"
+            />
+        </div>
+        <div class="col-md-6">
+            <img
+                src="{% static 'images/voltic-logo.svg' %}"
+                alt="voltic-logo"
+                class="iabiri"
+            />
+        </div>
+    </div>
+</div>
+{% endblock %}

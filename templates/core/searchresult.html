@@ -1,0 +1,430 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-6 min-view-height">
+    <div class="row bg-gray">
+        <div class="result-container">
+            <h3 class="text-orange">Search Result</h3>
+            <span class="result-count">{{ results.count }} RESULT FOUND</span>
+        </div>
+    </div>
+    <div class="row bg-danger text-white py-2">
+        <div class="col-md-9 text-center text-upper">
+            {{ origin }} -> {{ destination }} {{ travel_date }}
+        </div>
+        <div class="col-md-3">
+            <div class="modify-search">
+                <span>MODIFY</span>
+                <span><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="row py-2 bg-gray">
+        <div class="text-center text-orange">
+            Please note Highlighted busses are coming from other towns and might
+            delay to depart.
+        </div>
+    </div>
+    <div class="row py-2">
+        <div class="result-container">
+            <div>
+                <button class="btn-filter">
+                    <i class="fa-solid fa-filter"></i><span>Filter</span>
+                </button>
+            </div>
+            <div>
+                <span>SORT BY</span>
+                <button class="btn-filter">Fare</button>
+                <button class="btn-filter">Destination</button>
+            </div>
+        </div>
+    </div>
+    {% for trip in results %}
+    <div class="row py-2">
+        <div class="bus-row">
+            <div>
+                <img
+                    src="{% static 'images/bus_icon.png' %}"
+                    alt="bus"
+                    class="bus-icon"
+                />
+            </div>
+            <div class="flex-col">
+                <span class="bus-route text-upper"
+                    >{{ trip.route.origin }} - {{ trip.route.destination }}</span
+                >
+                <span class="bus-desc">{{ trip.bus.bus_type }}</span>
+                <span class="bus-amenities">
+                    <i class="fa-solid fa-wifi px-2"></i>
+                    <i class="fa-solid fa-plug px-2"></i>
+                    <i class="fa-solid fa-glass-water-droplet px-2"></i>
+                </span>
+                <span class="text-blue cursor-pointer amenities-link"
+                    >Amenities</span
+                >
+            </div>
+            <div class="flex-col">
+                <span>Departure Time</span>
+                <span>{{ trip.departure_time|time:"h:i A" }}</span>
+            </div>
+            <div class="flex-col">
+                <span>Rating</span>
+                <span>
+                    <i class="fa-solid fa-star text-orange"></i>
+                    <i class="fa-solid fa-star text-orange"></i>
+                    <i class="fa-solid fa-star text-orange"></i>
+                    <i class="fa-solid fa-star text-orange"></i>
+                    <i class="fa-solid fa-star text-orange"></i>
+                </span>
+            </div>
+            <div class="flex-col">
+                <img
+                    src="{% static 'images/seat_travel.png' %}"
+                    alt="seat"
+                    class="seat-icon"
+                />
+            </div>
+            <div class="flex-col">
+                <span class="text-orange"
+                    >{{ trip.available_seats }} Seats Available</span
+                >
+                <button class="btn-view-seat">View Seats</button>
+            </div>
+            <div class="flex-col">
+                <span>Normal</span>
+            </div>
+            <div class="flex-col">
+                <span
+                    >KES
+                    <strong class="text-orange">{{ trip.price }}</strong></span
+                >
+            </div>
+        </div>
+        <div class="amenities">
+            {% for item in trip.bus.amenities.all %}
+            {% if item.name == 'Wifi' %}
+            <div class="amenity">
+                <span><i class="fa-solid fa-wifi"></i></span>
+                <span>Wifi</span>
+            </div>
+            {% elif item.name == 'Phone charging' %}
+            <div class="amenity">
+                <span><i class="fa-solid fa-plug"></i></span>
+                <span>Phone charging</span>
+            </div>
+            {% elif item.name == 'Water' %}
+            <div class="amenity">
+                <span><i class="fa-solid fa-glass-water-droplet"></i></span>
+                <span>Water</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="view-seats">
+            <div class="custom-journey">
+                <span>Customize Your Journey</span>
+                <span><i class="fas fa-times"></i></span>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <span class="rounded-sm"></span>
+                    <span class="font-sm-13">Normal: KES {{ trip.price }}</span>
+                </div>
+                <div class="col-md-6">
+                    <div class="seat-type-row">
+                        <div>
+                            <span class="seat-selection-icon available-seat"
+                                >A</span
+                            >
+                            <span>Available Seats</span>
+                        </div>
+                        <div>
+                            <span class="seat-selection-icon selected-seat"
+                                >S</span
+                            >
+                            <span>Selected Seats</span>
+                        </div>
+                        <div>
+                            <span class="seat-selection-icon booked-seat"
+                                >B</span
+                            >
+                            <span>Booked Seats</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="row py-2">
+                            <div class="col-md-2">
+                                <div class="driver-seat">
+                                    <img
+                                        src="{% static 'images/driver.png' %}"
+                                        height="30px"
+                                        width="30px"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="seat-row py-2" id="a-seats-row">
+                                    {% for seat in a_seats %}
+                                        {% if seat.status == 'booked' %}
+                                        <span
+                                            data-id="{{ seat.id }}"
+                                            data-seat="{{ seat.seat_number }}"
+                                            data-price="{{ trip.price }}"
+                                            data-status="{{ seat.status }}"
+                                            data-origin="{{ trip.route.origin }}"
+                                            data-destination="{{ trip.route.destination }}"
+                                            data-bus="{{ trip.bus.name }}"
+                                            data-bus-id="{{ trip.bus.id }}"
+                                            data-trip="{{ trip.id }}"
+                                            class="seat-selection-icon booked-seat"
+                                            >{{ seat.seat_number }}</span
+                                        >
+                                        {% else %}
+                                        <span
+                                            data-id="{{ seat.id }}"
+                                            data-seat="{{ seat.seat_number }}"
+                                            data-price="{{ trip.price }}"
+                                            data-status="{{ seat.status }}"
+                                            data-origin="{{ trip.route.origin }}"
+                                            data-destination="{{ trip.route.destination }}"
+                                            data-bus="{{ trip.bus.name }}"
+                                            data-bus-id="{{ trip.bus.id }}"
+                                            data-trip="{{ trip.id }}"
+                                            class="seat-selection-icon normal-seat"
+                                            >{{ seat.seat_number }}</span
+                                        >
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="seat-row py-2 flex-end">
+                                    <span
+                                        class="seat-selection-icon booked-seat mr-20"
+                                        >25</span
+                                    >
+                                </div>
+                                <div class="seat-row py-2" id="b-seats-row">
+                                    {% for seat in b_seats %}
+                                        {% if seat.status == 'booked' %}
+                                        <span
+                                            data-id="{{ seat.id }}"
+                                            data-seat="{{ seat.seat_number }}"
+                                            data-price="{{ trip.price }}"
+                                            data-status="{{ seat.status }}"
+                                            data-origin="{{ trip.route.origin }}"
+                                            data-destination="{{ trip.route.destination }}"
+                                            data-bus="{{ trip.bus.name }}"
+                                            data-bus-id="{{ trip.bus.id }}"
+                                            data-trip="{{ trip.id }}"
+                                            class="seat-selection-icon booked-seat"
+                                            >{{ seat.seat_number }}</span
+                                        >
+                                        {% else %}
+                                        <span
+                                            data-id="{{ seat.id }}"
+                                            data-seat="{{ seat.seat_number }}"
+                                            data-price="{{ trip.price }}"
+                                            data-status="{{ seat.status }}"
+                                            data-origin="{{ trip.route.origin }}"
+                                            data-destination="{{ trip.route.destination }}"
+                                            data-bus="{{ trip.bus.name }}"
+                                            data-bus-id="{{ trip.bus.id }}"
+                                            data-trip="{{ trip.id }}"
+                                            class="seat-selection-icon normal-seat"
+                                            >{{ seat.seat_number }}</span
+                                        >
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card py-2">
+                        <div class="pick-point">
+                            <span>Pick Point</span>
+                            <select class="form-select w-80" id="pick-point">
+                                <option value="KPCU Office">KPCU Office</option>
+                                <option value="Uthiru">Uthiru</option>
+                                <option value="Mutharakwa">Mutharakwa</option>
+                                <option value="Kangemi">Kangemi</option>
+                            </select>
+                        </div>
+                        <div class="pick-point">
+                            <span>Drop Point</span>
+                            <select class="form-select w-80" id="drop-point">
+                                <option value="Kisumu Office">
+                                    Kisumu Office
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="seat-title">Selected seats</span>
+                            <span class="your-seats"></span>
+                        </div>
+                        <div class="normal-seat-aggs">
+                            <span class="">Normal</span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="cum-total">
+                        <span>Fare</span>
+                        <span class="cum-total-price">KES 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="continue">
+                <button type="button" class="btn-danger btn-continue-1">
+                    Continue
+                </button>
+                <button
+                    type="button"
+                    class="btn-continue-2"
+                    hidden
+                    data-bs-target="#reviewModal"
+                    data-bs-toggle="modal"
+                >
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="col-md-8">
+    <div
+        class="modal fade"
+        id="reviewModal"
+        tabindex="{-1}"
+        role="dialog"
+        aria-labelledby="modal-center"
+        aria-hidden="true"
+        style="display: none"
+    >
+        <div
+            class="modal-dialog modal-lg modal-dialog-centered"
+            role="document"
+        >
+            <div class="modal-content">
+                <div class="text-right">
+                    <button
+                        type="button"
+                        class="btn"
+                        data-bs-dismiss="modal"
+                        aria-label="close"
+                    >
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">TRIP REVIEW</div>
+                    <div class="trip">
+                        <span class="text-upper"
+                            >{{ origin }} to {{ destination }} | {{ travel_date }}</span
+                        >
+                    </div>
+                    <div class="selection-preview">
+                        <!-- content rendered dynamically -->
+                    </div>
+                    <div class="grand-total review-total">
+                        <span>Grand Total</span>
+                        <span>KES 1600</span>
+                    </div>
+                    <div class="continue-modal">
+                        <button type="button" class="btn-danger btn-continue-3">
+                            Continue
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-continue-4"
+                            data-bs-dismiss="modal"
+                            hidden
+                        >
+                            Continue
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-continue-5"
+                            hidden
+                            data-bs-target="#passengerModal"
+                            data-bs-toggle="modal"
+                        >
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <div
+        class="modal fade"
+        id="passengerModal"
+        tabindex="{-1}"
+        role="dialog"
+        aria-labelledby="modal-center"
+        aria-hidden="true"
+        style="display: none"
+    >
+        <div
+            class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+            role="document"
+        >
+            <div class="modal-content">
+                <div class="text-right">
+                    <button
+                        type="button"
+                        class="btn"
+                        data-bs-dismiss="modal"
+                        aria-label="close"
+                    >
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">PASSENGER DETAILS</div>
+                    <div class="px-2">
+                        <form action="{% url 'searchresult' %}" method="post" id="book-ticket">
+                            {% csrf_token %}
+                            <div class="flex-col mb-4">
+                                <label
+                                    for="Contact Detail"
+                                    title="We will send your ticket to this email"
+                                    >Email</label
+                                >
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    placeholder="someone@example.com"
+                                    required
+                                />
+                            </div>
+                            <div class="flex-col mb-4" id="passengers">
+                                <!-- content rendered dynamically -->
+                            </div>
+                            <div class="flex justify-end mb-2">
+                                <button
+                                    type="submit"
+                                    class="btn-danger"
+                                    id="payable-total"
+                                ></button>
+                            </div>
+                            <div class="response-msg alert text-center hidden"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

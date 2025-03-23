@@ -1,0 +1,40 @@
+{% extends '../base.html' %} {% load static %} {% block content %}
+<div class="container py-6 min-view-height">
+    <div class="row">
+        <div class="col-md 8">
+            <div class="text-wrap">
+                <h1>Welcome to <span class="text-red">ENA Coach</span></h1>
+                <div class="slight-bold">
+                    Our vision is to offer world-class transportation services
+                    in an innovative way while harnessing the use of technology
+                    to delight retain and defend our clients.
+                </div>
+
+                <div>
+                    <p>
+                        ENA Coach is a bus and shuttle company being run by ENA
+                        Investments Limited. The company has been operational
+                        since 2010 and rebranded from 2008 to 2018
+                    </p>
+                    <p>
+                        With Experience in the PSV industry and courier
+                        services, ENA Coach in partnership with Explorer Parcel
+                        Handlers (EPH) has evaluated the challenges and come up
+                        with better services to offer exemplary services. ENA
+                        Coach covers more than 30 routes within Kenya and is
+                        working round the clock to add more routes within Kenya
+                        and the greater East African region.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-right">
+            <img
+                src="{% static 'images/about.jpg' %}"
+                alt="about"
+                style="width: 100%; height: 400px"
+            />
+        </div>
+    </div>
+</div>
+{% endblock %}

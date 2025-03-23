@@ -1,0 +1,49 @@
+{% load static %} {% block header %}
+<div class="social-container">
+    <span
+        ><a href="#"><i class="fa-brands fa-facebook-f fa-icon"></i></a
+    ></span>
+    <span
+        ><a href="#"><i class="fa-solid fa-x fa-icon"></i></a
+    ></span>
+    <span
+        ><a href="#"><i class="fa-brands fa-instagram fa-icon"></i></a
+    ></span>
+</div>
+<div class="banner-images">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 col-xs-6 pos-relative">
+                <img
+                    src="{% static 'images/big-logo.png' %}"
+                    class="big-logo-1"
+                />
+            </div>
+            <div class="col-lg-7 col-xs-6">
+                <img
+                    src="{% static 'images/amenity.png' %}"
+                    class="big-logo-2"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid navbar-container">
+    <ul class="nav-list">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact Us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/manageticket">Manage Ticket</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gallery">Gallery</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/signin">SignIn / Register</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

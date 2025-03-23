@@ -1,0 +1,40 @@
+{% extends '../base.html' %} {% load static %} {% block content %}
+<div class="container py-6 min-view-height">
+    <div class="row">
+        <div class="col-mid">
+            <div class="text-center">
+                <h3 class="print-ticket">Confirm Payment For Your Ticket(s)</h3>
+                <form action="" method="post" id="submit-payment">
+                    {% csrf_token %}
+                    <div>
+                        <p>Go To MPESA menu</p>
+                        <p>Select LipaNaMpesa Paybill</p>
+                        <p>Enter Business No <strong>4079395</strong></p>
+                        <p>Account Number enter <strong>{{ reference }}</strong></p>
+                        <p>Enter Amount <strong>{{ total_payable }}</strong></p>
+                        <p>Enter MPESA PIN</p>
+                        <p></p>
+                    </div>
+                    <div class="form-group mb-4">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="amount"
+                            name="amount"
+                            placeholder="You are required to pay {{ total_payable }}"
+                            required
+                            data-amount="{{ total_payable }}"
+                        />
+                        <input type="hidden" name="trip" value="{{ trip }}">
+                        <input type="hidden" name="reference" value="{{ reference }}">
+                    </div>
+                    <div class="response-msg alert alert-success text-center hidden">Your ticket has been successfully booked</div>
+                    <div>
+                        <button type="submit" class="btn-danger">Pay</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
