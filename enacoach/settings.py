@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print("BASE_DIR", BASE_DIR)
 
+env = environ.Env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -121,6 +124,8 @@ MEDIA_URL = 'media/'
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'static'
+AFRICASTALKING_USERNAME= env("AFRICASTALKING_USERNAME", default="sandbox")
+AFRICASTALKING_API_KEY= env("AFRICASTALKING_API_KEY", default="dummy_key")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

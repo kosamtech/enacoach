@@ -1,8 +1,10 @@
 import json
 import string
 import random
+import africastalking
 from datetime import datetime
 
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.middleware.csrf import get_token
@@ -211,6 +213,21 @@ class PaymentView(View):
         }
         return render(request, 'core/payment.html', context)
 
+
+    def send_sms(self, phone_number, message):
+        username = settings.AFRICASTALKING_USERNAME
+        api_key = settings.AFRICASTALKING_API_KEY
+        africastalking.initialize(username, api_key)
+
+        try:
+            sms = africastalking.SMS
+            response = sms.send(message, ["+254790804851"])
+            print("SMS sent successfully", message)
+            return response
+        except Exception as e:
+            print(f"Error sending SMS: {e}")
+            return None
+
     def post(self, request):
         print(request.POST)
         trip = request.POST.get("trip")
@@ -230,5 +247,6 @@ class PaymentView(View):
             booking.save()
             booking.payment.status = Payment.PaymentStatus.SUCCESS
             booking.payment.save()
+        self.send_sms("+254790804851", f"Dear Nancy, your ticket has been successfully booked. Reference: {reference}. From {trip.route.origin} to {trip.route.destination} On {trip.departure_date} Thank you for choosing us!")
 
         return JsonResponse({"message": "Confirmed! Your ticket has been successfully booked"})
